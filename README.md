@@ -1,10 +1,28 @@
 # stable-matching
 
-A Clojure library designed to ... well, that part is up to you.
+This is an Clojure implantation of the [Gale–Shapley algorithm](https://en.wikipedia.org/wiki/Gale%E2%80%93Shapley_algorithm)
 
 ## Usage
 
-FIXME
+Here goes an example:
+
+```clojure
+(ns stable-matching.core-test
+  (:require [stable-matching.core :refer [stable-match]]))
+
+(def women-preference {:charlotte [:bingley :darcy :collins :wockham]
+                       :elizabeth [:wickham :darcy :bingley :collins]
+                       :jane      [:bingley :wickham :darcy :collins]
+                       :lydia     [:bingley :wickham :darcy :collins]})
+
+(def men-preference {:bingley [:jane :elizabeth :lydia :charlotte]
+                     :jane    [:jane :elizabeth :lydia :charlotte]
+                     :darcy   [:elizabeth :jane :charlotte :lydia]
+                     :wickham [:lydia :jane :elizabeth :charlotte]})
+
+(stable-match women-preference men-preference)
+=> 1
+```
 
 ## License
 
