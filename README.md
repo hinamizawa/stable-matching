@@ -1,8 +1,16 @@
 # stable-matching
 
-This is an Clojure implantation of the [Gale–Shapley algorithm](https://en.wikipedia.org/wiki/Gale%E2%80%93Shapley_algorithm)
+This is a Clojure implantation of the [Gale–Shapley algorithm](https://en.wikipedia.org/wiki/Gale%E2%80%93Shapley_algorithm)
 
 ## Usage
+Leiningen/Boot
+```clojure
+[hinamizawa/stable-matching "0.1.0"]
+```
+Clojure CLI/deps.edn
+```clojure
+hinamizawa/stable-matching {:mvn/version "0.1.0"}
+```
 
 Here goes an example:
 
@@ -21,7 +29,10 @@ Here goes an example:
                      :wickham [:lydia :jane :elizabeth :charlotte]})
 
 (stable-match women-preference men-preference)
-=> 1
+=> {:jane      :bingley
+    :lydia     :wickham
+    :elizabeth :darcy
+    :charlotte :collins}
 ```
 
 ## License

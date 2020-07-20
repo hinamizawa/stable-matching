@@ -17,24 +17,18 @@
   ([pred coll]
    (reduce (fn [_ x] (if (pred x) (reduced x))) nil coll)))
 
-(defn- preference-in-list? [preferences coll]
-  (every? (fn [[_ v]]
-            (and (apply distinct? v)
-                 (every? coll v)))
-          preferences))
-
 (defn- make-proposal
   [proposal-pool man woman]
   (update proposal-pool woman (fnil #(conj % man) [])))
 
 (defn- get-most-preferred [coll prefers]
-  (find-first #(.contains prefers %) coll))
+  (find-first #(.contains coll %) prefers))
 
 (defn- update-suitor-pairs [proposal-pool suitor-pairs women-preference]
   (reduce (fn [pool [woman coll]]
             (assoc pool
-              (get-most-preferred coll (women-preference woman))
-              woman))
+              woman
+              (get-most-preferred coll (women-preference woman))))
           suitor-pairs
           proposal-pool))
 
@@ -44,19 +38,15 @@
           men-preference proposed))
 
 (defn stable-match [women-preference men-preference]
-  (let [women (set (keys women-preference))
-        men   (set (keys men-preference))]
-    (assert (preference-in-list? women-preference men))
-    (assert (preference-in-list? men-preference women)))
   (let [num-of-pairs (count women-preference)]
     (loop [men-preference men-preference
            suitor-pairs   {}]
       (if (= num-of-pairs (count suitor-pairs))
         suitor-pairs
-        (let [men-single (set/difference (into #{} (keys men-preference)) (set (keys suitor-pairs)))
+        (let [men-single (set/difference (into #{} (keys men-preference)) (set (vals suitor-pairs)))
               proposals  (reduce (fn [proposal man]
                                    (make-proposal proposal man (first (men-preference man))))
-                                 {}
+                                 (into {} (map (fn [[k v]] {k [v]}) suitor-pairs))
                                  men-single)]
           (recur (update-men-preference men-preference men-single)
                  (update-suitor-pairs proposals suitor-pairs women-preference)))))))
