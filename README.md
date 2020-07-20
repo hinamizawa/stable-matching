@@ -1,6 +1,6 @@
 # stable-matching
 
-This is a Clojure implantation of the [Gale–Shapley algorithm](https://en.wikipedia.org/wiki/Gale%E2%80%93Shapley_algorithm)
+This is a Clojure implantation of the [Gale–Shapley algorithm](https://en.wikipedia.org/wiki/Gale%E2%80%93Shapley_algorithm).
 
 ## Usage
 Leiningen/Boot
