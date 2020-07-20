@@ -43,7 +43,7 @@
            suitor-pairs   {}]
       (if (= num-of-pairs (count suitor-pairs))
         suitor-pairs
-        (let [men-single (set/difference (into #{} (keys men-preference)) (set (vals suitor-pairs)))
+        (let [men-single (set/difference (set (keys men-preference)) (set (vals suitor-pairs)))
               proposals  (reduce (fn [proposal man]
                                    (make-proposal proposal man (first (men-preference man))))
                                  (into {} (map (fn [[k v]] {k [v]}) suitor-pairs))
